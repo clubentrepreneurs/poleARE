@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pôle Accompagnement à la Réussite Étudiante</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #00738c; /* Le bleu de votre organigramme */
+            --bg-color: #ffffff;
+            --text-color: #333;
+            --font-main: 'Apex', 'Montserrat', sans-serif;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 20px;
+            color: var(--text-color);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            text-transform: uppercase;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+            display: inline-block;
+        }
+
+        /* Barre de recherche */
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto 40px auto;
+            text-align: center;
+        }
+
+        #skillSearch {
+            width: 100%;
+            padding: 12px 20px;
+            border: 2px solid var(--primary-color);
+            border-radius: 25px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        /* Grille 4 colonnes */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            align-items: start;
+        }
+
+        .column {
+            background: #f9f9f9;
+            border-top: 5px solid var(--primary-color);
+            padding: 15px;
+            border-radius: 8px;
+            min-height: 80vh;
+        }
+
+        .column h2 {
+            font-size: 0.9rem;
+            text-align: center;
+            color: var(--primary-color);
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-transform: uppercase;
+        }
+
+        /* Membres */
+        .member-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 25px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .member-card:hover {
+            transform: scale(1.05);
+        }
+
+        .circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            text-align: center;
+            overflow: hidden;
+            border: 3px solid #eee;
+        }
+
+        .member-name {
+            font-size: 0.85rem;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .member-role {
+            font-size: 0.75rem;
+            color: #666;
+            text-align: center;
+        }
+
+        /* Modal (Fenêtre surgissante) */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.6);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 30px;
+            width: 50%;
+            border-radius: 15px;
+            position: relative;
+        }
+
+        .close {
+            position: absolute;
+            right: 20px;
+            top: 15px;
+            font-size: 28px;
+            cursor: pointer;
+        }
+
+        .hidden { display: none; }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .grid-container { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 600px) {
+            .grid-container { grid-template-columns: 1fr; }
+            .modal-content { width: 90%; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Pôle Accompagnement à la Réussite Étudiante</h1>
+</header>
+
+<div class="search-container">
+    <input type="text" id="skillSearch" placeholder="Rechercher une compétence (ex: orientation, projet, design...)" onkeyup="filterMembers()">
+</div>
+
+<div class="grid-container" id="mainGrid">
+    <div class="column">
+        <h2>Développement et Déploiement (3DR)</h2>
+        <div id="service-3dr"></div>
+    </div>
+
+    <div class="column">
+        <h2>Orientation et Insertion Pro</h2>
+        <div id="service-orientation"></div>
+    </div>
+
+    <div class="column">
+        <h2>Relations Partenaires</h2>
+        <div id="service-relations"></div>
+    </div>
+
+    <div class="column">
+        <h2>Laboratoire de la réussite</h2>
+        <div id="service-labo"></div>
+    </div>
+</div>
+
+<div id="memberModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2 id="modalName" style="color:var(--primary-color)"></h2>
+        <h3 id="modalRole"></h3>
+        <hr>
+        <h4>🛠 Compétences</h4>
+        <p id="modalSkills"></p>
+        <h4>🚀 Projets en cours & futurs</h4>
+        <p id="modalProjects"></p>
+    </div>
+</div>
+
+<script>
+    // DONNÉES DES MEMBRES
+    const members = [
+        // SERVICE 3DR
+        { name: "Céline Chauve", service: "3dr", role: "Responsable de Service", skills: "pilotage, stratégie, réussite", projects: "Déploiement dispositif X" },
+        { name: "Igor Carré", service: "3dr", role: "Chargé de développement", skills: "ingénierie, projets", projects: "Dispositif tutorat" },
+        { name: "Stéphane Litterst", service: "3dr", role: "Responsable Cellule PPO", skills: "formation, ppo", projects: "Réforme PPO" },
+        { name: "Samantha Pontvianne", service: "3dr", role: "Enseignante Contractuelle", skills: "enseignement, insertion", projects: "Module UE Pro" },
+        { name: "Béatrice Renard", service: "3dr", role: "Coordonnatrice Formation", skills: "organisation, suivi", projects: "Planning 2026" },
+
+        // SERVICE ORIENTATION
+        { name: "Fred Meerpoël", service: "orientation", role: "Responsable de Service", skills: "orientation, management", projects: "Nouveaux parcours" },
+        { name: "Joëlle Goudineau", service: "orientation", role: "Psycho / Conseillère", skills: "psychologie, écoute", projects: "Ateliers bien-être" },
+        { name: "Delphine Iscaye", service: "orientation", role: "Conseillère ARE", skills: "accompagnement, orientation", projects: "Forum métier" },
+        { name: "Corinne Margutti", service: "orientation", role: "Conseillère ARE", skills: "conseil, carrière", projects: "Suivi individuel" },
+        { name: "Nicolas Muscat", service: "orientation", role: "Conseiller ARE", skills: "insertion, entreprises", projects: "Job dating" },
+        { name: "Elodie Rodriguez", service: "orientation", role: "Conseillère ARE", skills: "réussite, coaching", projects: "Réorientation active" },
+
+        // SERVICE RELATIONS
+        { name: "Jade Janninelle", service: "relations", role: "Chargée relations secondaire", skills: "liaison lycée, communication", projects: "Cordées de la réussite" },
+        { name: "À Recruter", service: "relations", role: "Animateur Communauté", skills: "évènementiel, réseaux sociaux", projects: "Ambassadeurs" },
+
+        // LABORATOIRE
+        { name: "Sarah Saioud", service: "labo", role: "Responsable de Service", skills: "innovation, recherche", projects: "Design thinking" },
+        { name: "À Recruter", service: "labo", role: "UX Designer", skills: "expérience utilisateur, web", projects: "Refonte portail" },
+        { name: "À Recruter", service: "labo", role: "Designer Expériences", skills: "espaces, aménagement", projects: "Learning center" },
+        { name: "À Recruter", service: "labo", role: "Chargé outils innovants", skills: "numérique, pédagogie", projects: "Application mobile" }
+    ];
+
+    function init() {
+        renderMembers(members);
+    }
+
+    function renderMembers(data) {
+        // Vider les colonnes
+        document.querySelectorAll('.column div').forEach(div => div.innerHTML = '');
+
+        data.forEach(m => {
+            const initials = m.name.split(' ').map(n => n[0]).join('');
+            const card = document.createElement('div');
+            card.className = 'member-card';
+            card.onclick = () => openModal(m);
+            card.innerHTML = `
+                <div class="circle">${initials}</div>
+                <div class="member-name">${m.name}</div>
+                <div class="member-role">${m.role}</div>
+            `;
+            document.getElementById(`service-${m.service}`).appendChild(card);
+        });
+    }
+
+    function openModal(m) {
+        document.getElementById('modalName').innerText = m.name;
+        document.getElementById('modalRole').innerText = m.role;
+        document.getElementById('modalSkills').innerText = m.skills;
+        document.getElementById('modalProjects').innerText = m.projects;
+        document.getElementById('memberModal').style.display = "block";
+    }
+
+    function closeModal() {
+        document.getElementById('memberModal').style.display = "none";
+    }
+
+    function filterMembers() {
+        const query = document.getElementById('skillSearch').value.toLowerCase();
+        const filtered = members.filter(m => 
+            m.skills.toLowerCase().includes(query) || 
+            m.name.toLowerCase().includes(query) ||
+            m.role.toLowerCase().includes(query)
+        );
+        renderMembers(filtered);
+    }
+
+    window.onclick = function(event) {
+        if (event.target == document.getElementById('memberModal')) closeModal();
+    }
+
+    init();
+</script>
+
+</body>
+</html>
