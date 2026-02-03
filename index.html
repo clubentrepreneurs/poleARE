@@ -7,283 +7,258 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #00738c; /* Le bleu de votre organigramme */
-            --bg-color: #ffffff;
-            --text-color: #333;
-            --font-main: 'Apex', 'Montserrat', sans-serif;
+            --primary-color: #00738c;
+            --secondary-bg: #f4f7f8;
+            --text-dark: #333;
+            --font-apex: 'Apex', 'Montserrat', sans-serif;
         }
 
         body {
-            font-family: var(--font-main);
-            background-color: var(--bg-color);
+            font-family: var(--font-apex);
+            background-color: #ffffff;
             margin: 0;
-            padding: 20px;
-            color: var(--text-color);
+            padding: 40px 20px;
+            color: var(--text-dark);
         }
 
         header {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 50px;
         }
 
         h1 {
             color: var(--primary-color);
+            font-size: 2rem;
             text-transform: uppercase;
-            border-bottom: 2px solid var(--primary-color);
-            padding-bottom: 10px;
-            display: inline-block;
+            letter-spacing: 1px;
         }
 
-        /* Barre de recherche */
-        .search-container {
-            max-width: 600px;
-            margin: 0 auto 40px auto;
-            text-align: center;
+        .search-wrapper {
+            max-width: 500px;
+            margin: 0 auto 50px auto;
         }
 
         #skillSearch {
             width: 100%;
-            padding: 12px 20px;
-            border: 2px solid var(--primary-color);
-            border-radius: 25px;
-            font-size: 16px;
+            padding: 15px 25px;
+            border: 2px solid #e0e0e0;
+            border-radius: 30px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        #skillSearch:focus {
+            border-color: var(--primary-color);
             outline: none;
         }
 
-        /* Grille 4 colonnes */
         .grid-container {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            align-items: start;
+            gap: 25px;
         }
 
-        .column {
-            background: #f9f9f9;
-            border-top: 5px solid var(--primary-color);
-            padding: 15px;
-            border-radius: 8px;
-            min-height: 80vh;
-        }
-
-        .column h2 {
-            font-size: 0.9rem;
+        .service-column {
+            background: var(--secondary-bg);
+            border-radius: 15px;
+            padding: 20px;
             text-align: center;
+        }
+
+        .service-title {
+            font-size: 0.85rem;
             color: var(--primary-color);
-            height: 60px;
+            font-weight: 700;
+            min-height: 50px;
+            margin-bottom: 30px;
+            text-transform: uppercase;
             display: flex;
             align-items: center;
             justify-content: center;
-            text-transform: uppercase;
         }
 
-        /* Membres */
-        .member-card {
+        .member-item {
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
             cursor: pointer;
             transition: transform 0.2s;
         }
 
-        .member-card:hover {
-            transform: scale(1.05);
+        .member-item:hover {
+            transform: translateY(-5px);
         }
 
-        .circle {
-            width: 80px;
-            height: 80px;
+        .avatar-circle {
+            width: 70px;
+            height: 70px;
             border-radius: 50%;
-            background-color: var(--primary-color);
+            background: var(--primary-color);
             color: white;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
             font-size: 1.2rem;
-            margin-bottom: 10px;
-            text-align: center;
-            overflow: hidden;
-            border: 3px solid #eee;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
 
-        .member-name {
-            font-size: 0.85rem;
-            font-weight: bold;
-            text-align: center;
-        }
+        .name { font-weight: 700; font-size: 0.9rem; margin-bottom: 4px; }
+        .role { font-size: 0.75rem; color: #666; line-height: 1.2; }
 
-        .member-role {
-            font-size: 0.75rem;
-            color: #666;
-            text-align: center;
-        }
-
-        /* Modal (Fenêtre surgissante) */
+        /* Modal */
         .modal {
             display: none;
             position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
             z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.6);
         }
 
         .modal-content {
-            background-color: white;
-            margin: 10% auto;
-            padding: 30px;
-            width: 50%;
-            border-radius: 15px;
+            background: white;
+            width: 90%;
+            max-width: 500px;
+            margin: 100px auto;
+            padding: 40px;
+            border-radius: 20px;
             position: relative;
         }
 
-        .close {
+        .close-btn {
             position: absolute;
-            right: 20px;
-            top: 15px;
-            font-size: 28px;
-            cursor: pointer;
+            top: 20px; right: 20px;
+            font-size: 24px; cursor: pointer;
         }
 
-        .hidden { display: none; }
-
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .grid-container { grid-template-columns: repeat(2, 1fr); }
-        }
-        @media (max-width: 600px) {
-            .grid-container { grid-template-columns: 1fr; }
-            .modal-content { width: 90%; }
-        }
+        @media (max-width: 1100px) { .grid-container { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 600px) { .grid-container { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
 
 <header>
     <h1>Pôle Accompagnement à la Réussite Étudiante</h1>
+    <p>Responsable de Pôle : Camille HERITIER</p>
 </header>
 
-<div class="search-container">
-    <input type="text" id="skillSearch" placeholder="Rechercher une compétence (ex: orientation, projet, design...)" onkeyup="filterMembers()">
+<div class="search-wrapper">
+    <input type="text" id="skillSearch" placeholder="Filtrer par compétence ou nom..." onkeyup="filterData()">
 </div>
 
-<div class="grid-container" id="mainGrid">
-    <div class="column">
-        <h2>Développement et Déploiement (3DR)</h2>
-        <div id="service-3dr"></div>
+<div class="grid-container">
+    <div class="service-column">
+        <div class="service-title">Orientation, Insertion Pro et Accompagnement</div>
+        <div id="col-orientation"></div>
     </div>
 
-    <div class="column">
-        <h2>Orientation et Insertion Pro</h2>
-        <div id="service-orientation"></div>
+    <div class="service-column">
+        <div class="service-title">Relations avec les partenaires d'aide à la réussite</div>
+        <div id="col-relations"></div>
     </div>
 
-    <div class="column">
-        <h2>Relations Partenaires</h2>
-        <div id="service-relations"></div>
+    <div class="service-column">
+        <div class="service-title">Développement et Déploiement des Dispositifs (3DR)</div>
+        <div id="col-3dr"></div>
     </div>
 
-    <div class="column">
-        <h2>Laboratoire de la réussite</h2>
-        <div id="service-labo"></div>
+    <div class="service-column">
+        <div class="service-title">Laboratoire de la réussite</div>
+        <div id="col-labo"></div>
     </div>
 </div>
 
-<div id="memberModal" class="modal">
+<div id="infoModal" class="modal">
     <div class="modal-content">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <h2 id="modalName" style="color:var(--primary-color)"></h2>
-        <h3 id="modalRole"></h3>
-        <hr>
-        <h4>🛠 Compétences</h4>
-        <p id="modalSkills"></p>
-        <h4>🚀 Projets en cours & futurs</h4>
-        <p id="modalProjects"></p>
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <h2 id="m-name" style="color: var(--primary-color); margin-top: 0;"></h2>
+        <p id="m-role" style="font-weight: bold;"></p>
+        <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+        <div id="m-details">
+            <p><strong>Compétences :</strong> <span id="m-skills"></span></p>
+            <p><strong>Projets en cours & futurs :</strong> <span id="m-projects"></span></p>
+        </div>
     </div>
 </div>
 
 <script>
-    // DONNÉES DES MEMBRES
-    const members = [
-        // SERVICE 3DR
-        { name: "Céline Chauve", service: "3dr", role: "Responsable de Service", skills: "pilotage, stratégie, réussite", projects: "Déploiement dispositif X" },
-        { name: "Igor Carré", service: "3dr", role: "Chargé de développement", skills: "ingénierie, projets", projects: "Dispositif tutorat" },
-        { name: "Stéphane Litterst", service: "3dr", role: "Responsable Cellule PPO", skills: "formation, ppo", projects: "Réforme PPO" },
-        { name: "Samantha Pontvianne", service: "3dr", role: "Enseignante Contractuelle", skills: "enseignement, insertion", projects: "Module UE Pro" },
-        { name: "Béatrice Renard", service: "3dr", role: "Coordonnatrice Formation", skills: "organisation, suivi", projects: "Planning 2026" },
-
+    const team = [
         // SERVICE ORIENTATION
-        { name: "Fred Meerpoël", service: "orientation", role: "Responsable de Service", skills: "orientation, management", projects: "Nouveaux parcours" },
-        { name: "Joëlle Goudineau", service: "orientation", role: "Psycho / Conseillère", skills: "psychologie, écoute", projects: "Ateliers bien-être" },
-        { name: "Delphine Iscaye", service: "orientation", role: "Conseillère ARE", skills: "accompagnement, orientation", projects: "Forum métier" },
-        { name: "Corinne Margutti", service: "orientation", role: "Conseillère ARE", skills: "conseil, carrière", projects: "Suivi individuel" },
-        { name: "Nicolas Muscat", service: "orientation", role: "Conseiller ARE", skills: "insertion, entreprises", projects: "Job dating" },
-        { name: "Elodie Rodriguez", service: "orientation", role: "Conseillère ARE", skills: "réussite, coaching", projects: "Réorientation active" },
+        { name: "Fred MEERPOËL", col: "orientation", role: "Responsable", skills: "Management, Stratégie", projects: "Plan réussite 2026" },
+        { name: "Joëlle GOUDINEAU", col: "orientation", role: "Conseillère Orientation Psychologue", skills: "Psychologie, Écoute", projects: "Permanences 50%" },
+        { name: "Delphine ISCAYE", col: "orientation", role: "Conseillère ARE", skills: "Orientation, Accompagnement", projects: "Ateliers CV" },
+        { name: "Corinne MARGUTTI", col: "orientation", role: "Conseillère ARE", skills: "Conseil, Insertion", projects: "Suivi étudiants" },
+        { name: "Nicolas MUSCAT", col: "orientation", role: "Conseiller ARE", skills: "Relation Entreprises", projects: "Forum Stages" },
+        { name: "Elodie RODRIGUEZ", col: "orientation", role: "Conseillère ARE", skills: "Pédagogie, Réussite", projects: "Tutorat" },
+        { name: "Virginie BADAMO", col: "orientation", role: "Conseillère ARE", skills: "Accompagnement, Insertion", projects: "Nouveau parcours" },
 
         // SERVICE RELATIONS
-        { name: "Jade Janninelle", service: "relations", role: "Chargée relations secondaire", skills: "liaison lycée, communication", projects: "Cordées de la réussite" },
-        { name: "À Recruter", service: "relations", role: "Animateur Communauté", skills: "évènementiel, réseaux sociaux", projects: "Ambassadeurs" },
+        { name: "À Recruter", col: "relations", role: "Responsable de Service", skills: "Coordination", projects: "Recrutement en cours" },
+        { name: "Jade JANNINELLE", col: "relations", role: "Chargée de relations - Secondaire", skills: "Liaison Lycée-Univ", projects: "Journées Portes Ouvertes" },
+        { name: "Nina GAULUPEAU", col: "relations", role: "Animateur Communauté Étudiants", skills: "Communication, Événementiel", projects: "Réseaux sociaux" },
+
+        // SERVICE 3DR
+        { name: "Céline CHAUVE", col: "3dr", role: "Responsable de Service", skills: "Pilotage, Dispositifs", projects: "Coordination 3DR" },
+        { name: "Igor CARRÉ", col: "3dr", role: "Chargé de développement", skills: "Ingénierie de formation", projects: "Dispositifs réussite" },
+        { name: "Létitia COQUET", col: "3dr", role: "Chargée de développement", skills: "Gestion de projet", projects: "Nouveaux outils" },
+        { name: "Stéphane LITTERST", col: "3dr", role: "Responsable Cellule PPO", skills: "Formation, PPO", projects: "Ingénierie pédagogique" },
+        { name: "Béatrice RENARD", col: "3dr", role: "Coordonnatrice Formation", skills: "Administration, Planning", projects: "Gestion des vacataires" },
+        { name: "Samantha PONTVIANNE", col: "3dr", role: "Ens. Contractuelle UE pro", skills: "Enseignement, Insertion", projects: "Modules professionnalisants" },
 
         // LABORATOIRE
-        { name: "Sarah Saioud", service: "labo", role: "Responsable de Service", skills: "innovation, recherche", projects: "Design thinking" },
-        { name: "À Recruter", service: "labo", role: "UX Designer", skills: "expérience utilisateur, web", projects: "Refonte portail" },
-        { name: "À Recruter", service: "labo", role: "Designer Expériences", skills: "espaces, aménagement", projects: "Learning center" },
-        { name: "À Recruter", service: "labo", role: "Chargé outils innovants", skills: "numérique, pédagogie", projects: "Application mobile" }
+        { name: "Sarah SAIOUD", col: "labo", role: "Responsable de Service", skills: "Innovation, Recherche", projects: "Expérimentations" },
+        { name: "Christophe GARELLI", col: "labo", role: "Chargé outils innovants", skills: "Numérique, EdTech", projects: "Plateforme réussite" },
+        { name: "À Recruter", col: "labo", role: "Designer d'expériences spatiales", skills: "Design, Aménagement", projects: "Learning Spaces" },
+        { name: "À Recruter", col: "labo", role: "UX Designer", skills: "Expérience Utilisateur", projects: "Refonte interface" }
     ];
 
-    function init() {
-        renderMembers(members);
-    }
+    function renderTeam(filteredData) {
+        const columns = ['orientation', 'relations', '3dr', 'labo'];
+        columns.forEach(c => document.getElementById(`col-${c}`).innerHTML = '');
 
-    function renderMembers(data) {
-        // Vider les colonnes
-        document.querySelectorAll('.column div').forEach(div => div.innerHTML = '');
-
-        data.forEach(m => {
-            const initials = m.name.split(' ').map(n => n[0]).join('');
+        filteredData.forEach(member => {
+            const initials = member.name === "À Recruter" ? "?" : member.name.split(' ').map(n => n[0]).join('');
             const card = document.createElement('div');
-            card.className = 'member-card';
-            card.onclick = () => openModal(m);
+            card.className = 'member-item';
+            card.onclick = () => openModal(member);
             card.innerHTML = `
-                <div class="circle">${initials}</div>
-                <div class="member-name">${m.name}</div>
-                <div class="member-role">${m.role}</div>
+                <div class="avatar-circle">${initials}</div>
+                <div class="name">${member.name}</div>
+                <div class="role">${member.role}</div>
             `;
-            document.getElementById(`service-${m.service}`).appendChild(card);
+            document.getElementById(`col-${member.col}`).appendChild(card);
         });
     }
 
     function openModal(m) {
-        document.getElementById('modalName').innerText = m.name;
-        document.getElementById('modalRole').innerText = m.role;
-        document.getElementById('modalSkills').innerText = m.skills;
-        document.getElementById('modalProjects').innerText = m.projects;
-        document.getElementById('memberModal').style.display = "block";
+        document.getElementById('m-name').innerText = m.name;
+        document.getElementById('m-role').innerText = m.role;
+        document.getElementById('m-skills').innerText = m.skills;
+        document.getElementById('m-projects').innerText = m.projects;
+        document.getElementById('infoModal').style.display = 'block';
     }
 
     function closeModal() {
-        document.getElementById('memberModal').style.display = "none";
+        document.getElementById('infoModal').style.display = 'none';
     }
 
-    function filterMembers() {
-        const query = document.getElementById('skillSearch').value.toLowerCase();
-        const filtered = members.filter(m => 
-            m.skills.toLowerCase().includes(query) || 
-            m.name.toLowerCase().includes(query) ||
-            m.role.toLowerCase().includes(query)
+    function filterData() {
+        const val = document.getElementById('skillSearch').value.toLowerCase();
+        const filtered = team.filter(m => 
+            m.name.toLowerCase().includes(val) || 
+            m.skills.toLowerCase().includes(val) || 
+            m.role.toLowerCase().includes(val)
         );
-        renderMembers(filtered);
+        renderTeam(filtered);
     }
 
-    window.onclick = function(event) {
-        if (event.target == document.getElementById('memberModal')) closeModal();
-    }
+    // Fermeture du modal au clic extérieur
+    window.onclick = (e) => { if(e.target.className === 'modal') closeModal(); }
 
-    init();
+    renderTeam(team);
 </script>
 
 </body>
