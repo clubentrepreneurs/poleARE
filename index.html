@@ -175,9 +175,9 @@
     <div class="modal-content">
         <span class="close-btn" onclick="closeModal()">&times;</span>
         <h2 id="m-name" style="color: var(--primary-color); margin-top: 0;"></h2>
-        <p id="m-role" style="font-weight: bold;"></p>
         <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
         <div id="m-details">
+            <p><strong>Rôle :</strong> <span id="m-role-detail"></span></p>
             <p><strong>Compétences :</strong> <span id="m-skills"></span></p>
             <p><strong>Projets en cours & futurs :</strong> <span id="m-projects"></span></p>
         </div>
@@ -232,7 +232,8 @@
 
     function openModal(m) {
         document.getElementById('m-name').innerText = m.name;
-        document.getElementById('m-role').innerText = m.role;
+        // On remplit la nouvelle ligne "Rôle" ici
+        document.getElementById('m-role-detail').innerText = m.role;
         document.getElementById('m-skills').innerText = m.skills;
         document.getElementById('m-projects').innerText = m.projects;
         document.getElementById('infoModal').style.display = 'block';
@@ -252,7 +253,6 @@
         renderTeam(filtered);
     }
 
-    // Fermeture du modal au clic extérieur
     window.onclick = (e) => { if(e.target.className === 'modal') closeModal(); }
 
     renderTeam(team);
