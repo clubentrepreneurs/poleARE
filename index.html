@@ -150,7 +150,7 @@
         .info-item span {
             font-size: 0.9rem;
             color: #444;
-            white-space: pre-line; /* Permet les retours à la ligne */
+            white-space: pre-line;
         }
 
         @media (max-width: 1100px) { .grid-container { grid-template-columns: repeat(2, 1fr); } }
@@ -168,7 +168,7 @@
 </header>
 
 <div class="search-wrapper">
-    <input type="text" id="skillSearch" placeholder="Filtrer par nom ou compétence..." onkeyup="filterData()">
+    <input type="text" id="skillSearch" placeholder="Filtrer par nom ou expertise..." onkeyup="filterData()">
 </div>
 
 <div class="grid-container">
@@ -201,25 +201,25 @@
 <script>
     const team = [
         // SERVICE ORIENTATION
-        { name: "Fred MEERPOËL", col: "orientation", role: "Responsable", skills: "Management, Stratégie" },
-        { name: "Joëlle GOUDINEAU", col: "orientation", role: "Conseillère Orientation Psychologue", skills: "Psychologie, Écoute" },
-        { name: "Delphine ISCAYE", col: "orientation", role: "Conseillère ARE", skills: "Orientation, Accompagnement" },
-        { name: "Corinne MARGUTTI", col: "orientation", role: "Conseillère ARE", skills: "Conseil, Insertion" },
-        { name: "Nicolas MUSCAT", col: "orientation", role: "Conseiller ARE", skills: "Relation Entreprises" },
-        { name: "Elodie RODRIGUEZ", col: "orientation", role: "Conseillère ARE", skills: "Pédagogie, Réussite" },
-        { name: "Virginie BADAMO", col: "orientation", role: "Conseillère ARE", skills: "Accompagnement, Insertion" },
+        { name: "Fred MEERPOËL", col: "orientation", role: "Responsable", skills: "" },
+        { name: "Joëlle GOUDINEAU", col: "orientation", role: "Conseillère Orientation Psychologue", skills: "" },
+        { name: "Delphine ISCAYE", col: "orientation", role: "Conseillère ARE", skills: "" },
+        { name: "Corinne MARGUTTI", col: "orientation", role: "Conseillère ARE", skills: "" },
+        { name: "Nicolas MUSCAT", col: "orientation", role: "Conseiller ARE", skills: "" },
+        { name: "Elodie RODRIGUEZ", col: "orientation", role: "Conseillère ARE", skills: "" },
+        { name: "Virginie BADAMO", col: "orientation", role: "Conseillère ARE", skills: "" },
 
         // SERVICE RELATIONS
-        { name: "Jade JANNINELLE", col: "relations", role: "Chargée de relations - Secondaire", skills: "Liaison Lycée-Univ" },
-        { name: "Nina GAULUPEAU", col: "relations", role: "Animateur Communauté Étudiants", skills: "Communication, Événementiel" },
+        { name: "Jade JANNINELLE", col: "relations", role: "Chargée de relations - Secondaire", skills: "" },
+        { name: "Nina GAULUPEAU", col: "relations", role: "Animateur Communauté Étudiants", skills: "" },
 
         // SERVICE 3DR
-        { name: "Céline CHAUVE", col: "3dr", role: "Responsable de Service", skills: "Pilotage, Dispositifs" },
-        { name: "Igor CARRÉ", col: "3dr", role: "Chargé de développement", skills: "Ingénierie de formation" },
-        { name: "Létitia COQUET", col: "3dr", role: "Chargée de développement", skills: "Gestion de projet" },
-        { name: "Stéphanie LITTERST", col: "3dr", role: "Responsable Cellule PPO", skills: "Formation, PPO" },
-        { name: "Béatrice RENARD", col: "3dr", role: "Coordonnatrice Formation", skills: "Administration, Planning" },
-        { name: "Samantha PONTVIANNE", col: "3dr", role: "Ens. Contractuelle UE pro", skills: "Enseignement, Insertion" },
+        { name: "Céline CHAUVE", col: "3dr", role: "Responsable de Service", skills: "" },
+        { name: "Igor CARRÉ", col: "3dr", role: "Chargé de développement", skills: "" },
+        { name: "Létitia COQUET", col: "3dr", role: "Chargée de développement", skills: "" },
+        { name: "Stéphanie LITTERST", col: "3dr", role: "Responsable Cellule PPO", skills: "" },
+        { name: "Béatrice RENARD", col: "3dr", role: "Coordonnatrice Formation", skills: "" },
+        { name: "Samantha PONTVIANNE", col: "3dr", role: "Ens. Contractuelle UE pro", skills: "" },
 
         // LABORATOIRE
         { 
@@ -235,7 +235,7 @@
             rush: "Rush pendant la rentrée (septembre et octobre non dispo)\nTélétravail le lundi et vendredi",
             fun: "Fan de Harry Potter"
         },
-        { name: "Christophe GARELLI", col: "labo", role: "Chargé outils innovants", skills: "Numérique, EdTech" }
+        { name: "Christophe GARELLI", col: "labo", role: "Chargé outils innovants", skills: "" }
     ];
 
     function renderTeam(filteredData) {
