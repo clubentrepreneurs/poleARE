@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pôle Accompagnement à la Réussite Étudiante - V2.1</title>
+    <title>Pôle ARE - Organigramme Collaboratif V2.3</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary-color: #00738c;
+            --accent-color: #e67e22;
             --secondary-bg: #f4f7f8;
             --text-dark: #333;
             --font-apex: 'Montserrat', sans-serif;
@@ -21,148 +22,36 @@
             color: var(--text-dark);
         }
 
-        header {
-            text-align: center;
-            margin-bottom: 50px;
-        }
+        header { text-align: center; margin-bottom: 50px; }
+        h1 { color: var(--primary-color); font-size: 2rem; text-transform: uppercase; letter-spacing: 1px; }
 
-        h1 {
-            color: var(--primary-color);
-            font-size: 2rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
+        .search-wrapper { max-width: 500px; margin: 0 auto 50px auto; }
+        #skillSearch { width: 100%; padding: 15px 25px; border: 2px solid #e0e0e0; border-radius: 30px; font-size: 1rem; transition: border-color 0.3s; }
 
-        .search-wrapper {
-            max-width: 500px;
-            margin: 0 auto 50px auto;
-        }
+        .grid-container { display: grid; grid-template-columns: repeat(4, 1fr); gap: 25px; }
+        .service-column { background: var(--secondary-bg); border-radius: 15px; padding: 20px; text-align: center; }
+        .service-title { font-size: 0.85rem; color: var(--primary-color); font-weight: 700; min-height: 60px; margin-bottom: 30px; text-transform: uppercase; display: flex; align-items: center; justify-content: center; }
 
-        #skillSearch {
-            width: 100%;
-            padding: 15px 25px;
-            border: 2px solid #e0e0e0;
-            border-radius: 30px;
-            font-size: 1rem;
-            transition: border-color 0.3s;
-        }
-
-        #skillSearch:focus {
-            border-color: var(--primary-color);
-            outline: none;
-        }
-
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 25px;
-        }
-
-        .service-column {
-            background: var(--secondary-bg);
-            border-radius: 15px;
-            padding: 20px;
-            text-align: center;
-        }
-
-        .service-title {
-            font-size: 0.85rem;
-            color: var(--primary-color);
-            font-weight: 700;
-            min-height: 60px;
-            margin-bottom: 30px;
-            text-transform: uppercase;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .member-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 30px;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-
+        .member-item { display: flex; flex-direction: column; align-items: center; margin-bottom: 30px; cursor: pointer; transition: transform 0.2s; }
         .member-item:hover { transform: translateY(-5px); }
-
-        .avatar-circle {
-            width: 70px; height: 70px;
-            border-radius: 50%;
-            background: var(--primary-color);
-            color: white;
-            display: flex; align-items: center; justify-content: center;
-            font-weight: bold; font-size: 1.2rem;
-            margin-bottom: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-
+        .avatar-circle { width: 70px; height: 70px; border-radius: 50%; background: var(--primary-color); color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.2rem; margin-bottom: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
         .name { font-weight: 700; font-size: 0.9rem; margin-bottom: 4px; }
         .role { font-size: 0.75rem; color: #666; line-height: 1.2; }
 
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6);
-            backdrop-filter: blur(5px);
-            z-index: 1000;
-        }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); z-index: 1000; }
+        .modal-content { background: white; width: 90%; max-width: 750px; margin: 50px auto; padding: 35px; border-radius: 20px; position: relative; max-height: 85vh; overflow-y: auto; }
+        .close-btn { position: absolute; top: 20px; right: 20px; font-size: 28px; cursor: pointer; color: #999; }
 
-        .modal-content {
-            background: white;
-            width: 90%;
-            max-width: 700px;
-            margin: 50px auto;
-            padding: 35px;
-            border-radius: 20px;
-            position: relative;
-            max-height: 85vh;
-            overflow-y: auto;
-        }
-
-        .close-btn {
-            position: absolute;
-            top: 20px; right: 20px;
-            font-size: 28px; cursor: pointer; color: #999;
-        }
-
-        .info-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .info-item {
-            padding: 12px;
-            background: #fcfcfc;
-            border-left: 4px solid var(--primary-color);
-            border-radius: 4px;
-        }
-
-        .info-item label {
-            display: block;
-            font-size: 0.7rem;
-            font-weight: 700;
-            color: var(--primary-color);
-            text-transform: uppercase;
-            margin-bottom: 6px;
-        }
-
-        .info-item span {
-            font-size: 0.9rem;
-            color: #444;
-            white-space: pre-line;
-        }
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+        .info-item { padding: 12px; background: #fcfcfc; border-left: 4px solid var(--primary-color); border-radius: 4px; }
+        .info-item.rush { border-left-color: var(--accent-color); background: #fffaf5; }
+        .info-item label { display: block; font-size: 0.7rem; font-weight: 700; color: var(--primary-color); text-transform: uppercase; margin-bottom: 6px; }
+        .info-item.rush label { color: var(--accent-color); }
+        .info-item span { font-size: 0.9rem; color: #444; white-space: pre-line; }
+        .empty-note { font-style: italic; color: #aaa; font-size: 0.8rem; }
 
         @media (max-width: 1100px) { .grid-container { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 650px) { 
-            .grid-container { grid-template-columns: 1fr; }
-            .info-grid { grid-template-columns: 1fr; }
-        }
+        @media (max-width: 650px) { .grid-container { grid-template-columns: 1fr; } .info-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -173,7 +62,7 @@
 </header>
 
 <div class="search-wrapper">
-    <input type="text" id="skillSearch" placeholder="Rechercher (nom, projet, outils...)" onkeyup="filterData()">
+    <input type="text" id="skillSearch" placeholder="Chercher un nom, un projet, une expertise..." onkeyup="filterData()">
 </div>
 
 <div class="grid-container">
@@ -194,10 +83,10 @@
             <div class="info-item"><label>Périmètre d’action</label><span id="m-perimetre"></span></div>
             <div class="info-item"><label>Expertise utile</label><span id="m-skills"></span></div>
             <div class="info-item"><label>Projets en cours (deadline)</label><span id="m-projects"></span></div>
-            <div class="info-item"><label>Interactions clés</label><span id="m-interactions"></span></div>
+            <div class="info-item"><label>Maillage & Relais</label><span id="m-interactions"></span></div>
             <div class="info-item"><label>Collaboration idéale</label><span id="m-collab"></span></div>
             <div class="info-item"><label>Préférence de communication</label><span id="m-comm"></span></div>
-            <div class="info-item"><label>Périodes de rush / contraintes</label><span id="m-rush"></span></div>
+            <div class="info-item rush"><label>Temps chauds / Périodes de rush</label><span id="m-rush"></span></div>
             <div class="info-item"><label>Trait particulier / fun</label><span id="m-fun"></span></div>
         </div>
     </div>
@@ -205,7 +94,7 @@
 
 <script>
     const team = [
-        // SERVICE ORIENTATION
+        // Liste complète conservée (Fred, Joëlle, Delphine, etc.)
         { name: "Fred MEERPOËL", col: "orientation", role: "Responsable", skills: "" },
         { name: "Joëlle GOUDINEAU", col: "orientation", role: "Conseillère Orientation Psychologue", skills: "" },
         { name: "Delphine ISCAYE", col: "orientation", role: "Conseillère ARE", skills: "" },
@@ -213,20 +102,14 @@
         { name: "Nicolas MUSCAT", col: "orientation", role: "Conseiller ARE", skills: "" },
         { name: "Elodie RODRIGUEZ", col: "orientation", role: "Conseillère ARE", skills: "" },
         { name: "Virginie BADAMO", col: "orientation", role: "Conseillère ARE", skills: "" },
-
-        // SERVICE RELATIONS
         { name: "Jade JANNINELLE", col: "relations", role: "Chargée de relations - Secondaire", skills: "" },
         { name: "Nina GAULUPEAU", col: "relations", role: "Animateur Communauté Étudiants", skills: "" },
-
-        // SERVICE 3DR
         { name: "Céline CHAUVE", col: "3dr", role: "Responsable de Service", skills: "" },
         { name: "Igor CARRÉ", col: "3dr", role: "Chargé de développement", skills: "" },
         { name: "Létitia COQUET", col: "3dr", role: "Chargée de développement", skills: "" },
         { name: "Stéphanie LITTERST", col: "3dr", role: "Responsable Cellule PPO", skills: "" },
         { name: "Béatrice RENARD", col: "3dr", role: "Coordonnatrice Formation", skills: "" },
         { name: "Samantha PONTVIANNE", col: "3dr", role: "Ens. Contractuelle UE pro", skills: "" },
-
-        // LABORATOIRE
         { 
             name: "Sarah SAIOUD", 
             col: "labo", 
@@ -234,10 +117,10 @@
             perimetre: "Conception et expérimentation d’outils et d’actions innovantes pour améliorer l’expérience et la réussite des étudiants",
             skills: "Outils maîtrisés : Canva, Genially, Moodle, H5P, Syllabus, Apose\nCompétences : UX Design, Ingénierie pédagogique, Design Thinking",
             projects: "Passeport étudiant (maintenance), Refonte cours Promo (sept. 2026), Process ateliers de rentrée (sept. 2026), Participation au GT des CT à s’orienter (sept. 2026), Boite à outils de la réussite (sept. 2027)",
-            interactions: "Camille : validation et coordination générale\nMarie Cécile de Cian, Hugo Crovello et Igor Carré : analyses questionnaires du Passeport\n3DR : conseils et expertise Moodle\nSoiparé : remontées terrains et collaboration rentrée\nEtudiants : remontées terrains\nNina : mise à dispo des contrats étudiants pour rentrée et autres actions",
-            collab: "A besoin d’un recap par email (si info donnée à l’oral)",
-            comm: "Conversation Teams ou Email",
-            rush: "Rush pendant la rentrée (septembre et octobre non dispo)\nTélétravail le lundi et vendredi",
+            interactions: "• Coordination : Camille (stratégie)\n• Analyse : Marie Cécile, Hugo & Igor (Passeport)\n• Expertise Digitale : Équipe 3DR (Moodle)\n• Terrain : Soiparé & Étudiants (besoins rentrée)\n• Logistique : Nina (Contrats tuteurs)",
+            collab: "Besoin d'un récap écrit si échange oral",
+            comm: "Teams ou Email",
+            rush: "Période de Rentrée (Septembre-Octobre)\nTélétravail : Lundi & Vendredi",
             fun: "Fan de Harry Potter"
         },
         { name: "Christophe GARELLI", col: "labo", role: "Chargé outils innovants", skills: "" }
@@ -246,17 +129,12 @@
     function renderTeam(filteredData) {
         const columns = ['orientation', 'relations', '3dr', 'labo'];
         columns.forEach(c => document.getElementById(`col-${c}`).innerHTML = '');
-
         filteredData.forEach(member => {
             const initials = member.name.split(' ').map(n => n[0]).join('');
             const card = document.createElement('div');
             card.className = 'member-item';
             card.onclick = () => openModal(member);
-            card.innerHTML = `
-                <div class="avatar-circle">${initials}</div>
-                <div class="name">${member.name}</div>
-                <div class="role">${member.role}</div>
-            `;
+            card.innerHTML = `<div class="avatar-circle">${initials}</div><div class="name">${member.name}</div><div class="role">${member.role}</div>`;
             document.getElementById(`col-${member.col}`).appendChild(card);
         });
     }
@@ -264,40 +142,26 @@
     function openModal(m) {
         document.getElementById('m-name').innerText = m.name;
         document.getElementById('m-role-top').innerText = m.role;
-        document.getElementById('m-perimetre').innerText = m.perimetre || "";
-        document.getElementById('m-skills').innerText = m.skills || "";
-        document.getElementById('m-projects').innerText = m.projects || "";
-        document.getElementById('m-interactions').innerText = m.interactions || "";
-        document.getElementById('m-collab').innerText = m.collab || "";
-        document.getElementById('m-comm').innerText = m.comm || "";
-        document.getElementById('m-rush').innerText = m.rush || "";
-        document.getElementById('m-fun').innerText = m.fun || "";
+        document.getElementById('m-perimetre').innerHTML = m.perimetre || '<span class="empty-note">À préciser</span>';
+        document.getElementById('m-skills').innerHTML = m.skills || '<span class="empty-note">À préciser</span>';
+        document.getElementById('m-projects').innerHTML = m.projects || '<span class="empty-note">À préciser</span>';
+        // Nouveau message incitatif pour le Maillage
+        document.getElementById('m-interactions').innerHTML = m.interactions || '<span class="empty-note">Relais thématiques et missions transverses</span>';
+        document.getElementById('m-collab').innerHTML = m.collab || '<span class="empty-note">À préciser</span>';
+        document.getElementById('m-comm').innerHTML = m.comm || '<span class="empty-note">À définir ensemble (Mai ?)</span>';
+        document.getElementById('m-rush').innerHTML = m.rush || '<span class="empty-note">Ex: Rentrée, Réos S1/S2...</span>';
+        document.getElementById('m-fun').innerHTML = m.fun || '<span class="empty-note">-</span>';
         document.getElementById('infoModal').style.display = 'block';
     }
 
     function closeModal() { document.getElementById('infoModal').style.display = 'none'; }
 
-    // FILTRE AMÉLIORÉ (Accents ignorés + Recherche multi-champs)
     function filterData() {
-        const val = document.getElementById('skillSearch').value
-            .toLowerCase()
-            .normalize("NFD").replace(/[\u0300-\u036f]/g, ""); 
-
+        const val = document.getElementById('skillSearch').value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""); 
         const filtered = team.filter(m => {
-            // Regroupe toutes les données textuelles du membre pour chercher dedans
-            const allText = `
-                ${m.name} 
-                ${m.role} 
-                ${m.skills || ''} 
-                ${m.perimetre || ''} 
-                ${m.projects || ''} 
-                ${m.interactions || ''}
-                ${m.fun || ''}
-            `.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-
+            const allText = `${m.name} ${m.role} ${m.skills || ''} ${m.perimetre || ''} ${m.projects || ''} ${m.rush || ''}`.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
             return allText.includes(val);
         });
-        
         renderTeam(filtered);
     }
 
