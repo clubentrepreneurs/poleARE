@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pôle ARE - Organigramme Collaboratif V2.4</title>
+    <title>Pôle ARE - Organigramme Collaboratif V2.5</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -49,8 +49,8 @@
         .info-item.rush { border-left-color: var(--accent-color); background: #fffaf5; }
         .info-item label { display: block; font-size: 0.7rem; font-weight: 700; color: var(--primary-color); text-transform: uppercase; margin-bottom: 6px; }
         .info-item.rush label { color: var(--accent-color); }
-        .info-item span { font-size: 0.9rem; color: #444; white-space: pre-line; }
-        .empty-note { font-style: italic; color: #aaa; font-size: 0.8rem; }
+        .info-item span { font-size: 0.85rem; color: #444; white-space: pre-line; }
+        .empty-note { font-style: italic; color: #aaa; font-size: 0.75rem; }
 
         @media (max-width: 1100px) { .grid-container { grid-template-columns: repeat(2, 1fr); } }
         @media (max-width: 650px) { .grid-container { grid-template-columns: 1fr; } .info-grid { grid-template-columns: 1fr; } }
@@ -90,7 +90,7 @@
             <div class="info-item"><label>Périmètre d’action</label><span id="m-perimetre"></span></div>
             <div class="info-item"><label>Expertise utile</label><span id="m-skills"></span></div>
             <div class="info-item"><label>Projets en cours (deadline)</label><span id="m-projects"></span></div>
-            <div class="info-item"><label>Maillage & Relais</label><span id="m-interactions"></span></div>
+            <div class="info-item"><label>Maillage & Relais (Synthèse)</label><span id="m-interactions"></span></div>
             <div class="info-item"><label>Collaboration idéale</label><span id="m-collab"></span></div>
             <div class="info-item"><label>Préférence de communication</label><span id="m-comm"></span></div>
             <div class="info-item rush"><label>Temps chauds / Périodes de rush</label><span id="m-rush"></span></div>
@@ -119,14 +119,14 @@
             name: "Sarah SAIOUD", 
             col: "labo", 
             role: "Responsable de Service", 
-            bday: "", // Exemple rempli pour Sarah
+            bday: "12 Octobre",
             perimetre: "Conception et expérimentation d’outils et d’actions innovantes pour améliorer l’expérience et la réussite des étudiants",
-            skills: "Outils maîtrisés : Canva, Genially, Moodle, H5P, Syllabus, Apose\nCompétences : UX Design, Ingénierie pédagogique, Design Thinking",
-            projects: "Passeport étudiant (maintenance), Refonte cours Promo (sept. 2026), Process ateliers de rentrée (sept. 2026), Participation au GT des CT à s’orienter (sept. 2026), Boite à outils de la réussite (sept. 2027)",
-            interactions: "• Coordination : Camille (stratégie)\n• Analyse : Marie Cécile, Hugo & Igor (Passeport)\n• Expertise Digitale : Équipe 3DR (Moodle)\n• Terrain : Soiparé & Étudiants (besoins rentrée)\n• Logistique : Nina (Contrats tuteurs)",
+            skills: "Outils : Canva, Genially, Moodle, H5P, Syllabus, Apose\nMéthodes : UX Design, Design Thinking, Ingénierie pédago",
+            projects: "Maintenance Passeport, Refonte Promo (09/26), Ateliers rentrée (09/26), GT Orientation (09/26), Boîte réussite (09/27)",
+            interactions: "• Stratégie : Camille\n• Data Passeport : M.C. de Cian, H. Crovello, I. Carré\n• Technique : Équipe 3DR (Moodle)\n• Terrain : Soiparé & Étudiants\n• RH Étudiante : Nina",
             collab: "Besoin d'un récap écrit si échange oral",
             comm: "Teams ou Email",
-            rush: "Période de Rentrée (Septembre-Octobre)\nTélétravail : Lundi & Vendredi",
+            rush: "Septembre-Octobre (Rentrée)\nTélétravail : Lundi & Vendredi",
             fun: "Fan de Harry Potter"
         },
         { name: "Christophe GARELLI", col: "labo", role: "Chargé outils innovants", bday: "" }
@@ -149,7 +149,6 @@
         document.getElementById('m-name').innerText = m.name;
         document.getElementById('m-role-top').innerText = m.role;
         
-        // Gestion de l'affichage de l'anniversaire
         if(m.bday) {
             document.getElementById('m-bday-container').style.display = 'flex';
             document.getElementById('m-bday').innerText = m.bday;
@@ -157,13 +156,16 @@
             document.getElementById('m-bday-container').style.display = 'none';
         }
 
-        document.getElementById('m-perimetre').innerHTML = m.perimetre || '<span class="empty-note">À préciser</span>';
-        document.getElementById('m-skills').innerHTML = m.skills || '<span class="empty-note">À préciser</span>';
-        document.getElementById('m-projects').innerHTML = m.projects || '<span class="empty-note">À préciser</span>';
-        document.getElementById('m-interactions').innerHTML = m.interactions || '<span class="empty-note">Relais thématiques et missions transverses</span>';
-        document.getElementById('m-collab').innerHTML = m.collab || '<span class="empty-note">À préciser</span>';
-        document.getElementById('m-comm').innerHTML = m.comm || '<span class="empty-note">À définir ensemble</span>';
-        document.getElementById('m-rush').innerHTML = m.rush || '<span class="empty-note">Ex: Rentrée, Réos S1/S2...</span>';
+        document.getElementById('m-perimetre').innerHTML = m.perimetre || '<span class="empty-note">Missions principales</span>';
+        document.getElementById('m-skills').innerHTML = m.skills || '<span class="empty-note">Outils et compétences clés</span>';
+        document.getElementById('m-projects').innerHTML = m.projects || '<span class="empty-note">Dossiers actuels</span>';
+        
+        // Texte d'exemple pour le Maillage pour guider l'équipe
+        document.getElementById('m-interactions').innerHTML = m.interactions || '<span class="empty-note">Regrouper par thématique (ex: Scolarité, Com...) plutôt que par noms individuels.</span>';
+        
+        document.getElementById('m-collab').innerHTML = m.collab || '<span class="empty-note">Besoins spécifiques</span>';
+        document.getElementById('m-comm').innerHTML = m.comm || '<span class="empty-note">Canaux favoris</span>';
+        document.getElementById('m-rush').innerHTML = m.rush || '<span class="empty-note">Ex: Rentrée, Réos...</span>';
         document.getElementById('m-fun').innerHTML = m.fun || '<span class="empty-note">-</span>';
         
         document.getElementById('infoModal').style.display = 'block';
