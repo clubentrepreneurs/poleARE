@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pôle Accompagnement à la Réussite Étudiante - V2</title>
+    <title>Pôle Accompagnement à la Réussite Étudiante - V2.1</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -45,6 +45,11 @@
             border-radius: 30px;
             font-size: 1rem;
             transition: border-color 0.3s;
+        }
+
+        #skillSearch:focus {
+            border-color: var(--primary-color);
+            outline: none;
         }
 
         .grid-container {
@@ -168,7 +173,7 @@
 </header>
 
 <div class="search-wrapper">
-    <input type="text" id="skillSearch" placeholder="Filtrer par nom ou expertise..." onkeyup="filterData()">
+    <input type="text" id="skillSearch" placeholder="Rechercher (nom, projet, outils...)" onkeyup="filterData()">
 </div>
 
 <div class="grid-container">
@@ -219,7 +224,7 @@
         { name: "Létitia COQUET", col: "3dr", role: "Chargée de développement", skills: "" },
         { name: "Stéphanie LITTERST", col: "3dr", role: "Responsable Cellule PPO", skills: "" },
         { name: "Béatrice RENARD", col: "3dr", role: "Coordonnatrice Formation", skills: "" },
-       
+        { name: "Samantha PONTVIANNE", col: "3dr", role: "Ens. Contractuelle UE pro", skills: "" },
 
         // LABORATOIRE
         { 
@@ -272,13 +277,27 @@
 
     function closeModal() { document.getElementById('infoModal').style.display = 'none'; }
 
+    // FILTRE AMÉLIORÉ (Accents ignorés + Recherche multi-champs)
     function filterData() {
-        const val = document.getElementById('skillSearch').value.toLowerCase();
-        const filtered = team.filter(m => 
-            m.name.toLowerCase().includes(val) || 
-            (m.skills && m.skills.toLowerCase().includes(val)) || 
-            m.role.toLowerCase().includes(val)
-        );
+        const val = document.getElementById('skillSearch').value
+            .toLowerCase()
+            .normalize("NFD").replace(/[\u0300-\u036f]/g, ""); 
+
+        const filtered = team.filter(m => {
+            // Regroupe toutes les données textuelles du membre pour chercher dedans
+            const allText = `
+                ${m.name} 
+                ${m.role} 
+                ${m.skills || ''} 
+                ${m.perimetre || ''} 
+                ${m.projects || ''} 
+                ${m.interactions || ''}
+                ${m.fun || ''}
+            `.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+            return allText.includes(val);
+        });
+        
         renderTeam(filtered);
     }
 
