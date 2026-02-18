@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pôle Accompagnement à la Réussite Étudiante - V2 Complète</title>
+    <title>Pôle Accompagnement à la Réussite Étudiante - V2</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -97,7 +97,6 @@
         .name { font-weight: 700; font-size: 0.9rem; margin-bottom: 4px; }
         .role { font-size: 0.75rem; color: #666; line-height: 1.2; }
 
-        /* Modal Styles */
         .modal {
             display: none;
             position: fixed;
@@ -110,7 +109,7 @@
         .modal-content {
             background: white;
             width: 90%;
-            max-width: 650px;
+            max-width: 700px;
             margin: 50px auto;
             padding: 35px;
             border-radius: 20px;
@@ -133,23 +132,25 @@
         }
 
         .info-item {
-            padding: 10px;
+            padding: 12px;
             background: #fcfcfc;
-            border-left: 3px solid var(--primary-color);
+            border-left: 4px solid var(--primary-color);
+            border-radius: 4px;
         }
 
         .info-item label {
             display: block;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 700;
             color: var(--primary-color);
             text-transform: uppercase;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
         }
 
         .info-item span {
             font-size: 0.9rem;
             color: #444;
+            white-space: pre-line; /* Permet les retours à la ligne */
         }
 
         @media (max-width: 1100px) { .grid-container { grid-template-columns: repeat(2, 1fr); } }
@@ -167,7 +168,7 @@
 </header>
 
 <div class="search-wrapper">
-    <input type="text" id="skillSearch" placeholder="Rechercher un nom, une expertise, un projet..." onkeyup="filterData()">
+    <input type="text" id="skillSearch" placeholder="Filtrer par nom ou compétence..." onkeyup="filterData()">
 </div>
 
 <div class="grid-container">
@@ -180,7 +181,7 @@
 <div id="infoModal" class="modal">
     <div class="modal-content">
         <span class="close-btn" onclick="closeModal()">&times;</span>
-        <h2 id="m-name" style="color: var(--primary-color); margin: 0 0 10px 0;"></h2>
+        <h2 id="m-name" style="color: var(--primary-color); margin: 0 0 5px 0;"></h2>
         <p id="m-role-top" style="font-weight: bold; color: #666; margin-bottom: 20px;"></p>
         <hr style="border: 0; border-top: 1px solid #eee;">
         
@@ -200,29 +201,41 @@
 <script>
     const team = [
         // SERVICE ORIENTATION
-        { name: "Fred MEERPOËL", col: "orientation", role: "Responsable", skills: "Management, Stratégie", perimetre: "Service Orientation/Insertion", projects: "Plan réussite 2026", interactions: "Équipe ARE, Direction", collab: "Proactivité", comm: "Teams", rush: "Septembre", fun: "Fan de jazz" },
-        { name: "Joëlle GOUDINEAU", col: "orientation", role: "Conseillère Orientation Psychologue", skills: "Psychologie, Écoute", perimetre: "Accompagnement psy", projects: "Permanences 50%", interactions: "Étudiants", collab: "Bienveillance", comm: "Email", rush: "Mars", fun: "Randonnée" },
-        { name: "Delphine ISCAYE", col: "orientation", role: "Conseillère ARE", skills: "Orientation, Accompagnement", perimetre: "Suivi étudiant", projects: "Ateliers CV", interactions: "Étudiants", collab: "Clarté", comm: "Teams", rush: "Février", fun: "-" },
-        { name: "Corinne MARGUTTI", col: "orientation", role: "Conseillère ARE", skills: "Conseil, Insertion", perimetre: "Suivi étudiant", projects: "Suivi étudiants", interactions: "Partenaires", collab: "-", comm: "Email", rush: "-", fun: "-" },
-        { name: "Nicolas MUSCAT", col: "orientation", role: "Conseiller ARE", skills: "Relation Entreprises", perimetre: "Alternance/Stages", projects: "Forum Stages", interactions: "Entreprises", collab: "Réseautage", comm: "Téléphone", rush: "Novembre", fun: "-" },
-        { name: "Elodie RODRIGUEZ", col: "orientation", role: "Conseillère ARE", skills: "Pédagogie, Réussite", perimetre: "Tutorat", projects: "Tutorat", interactions: "Tuteurs", collab: "Organisation", comm: "Teams", rush: "Octobre", fun: "-" },
-        { name: "Virginie BADAMO", col: "orientation", role: "Conseillère ARE", skills: "Accompagnement, Insertion", perimetre: "Parcours réussite", projects: "Nouveau parcours", interactions: "Étudiants", collab: "-", comm: "Email", rush: "-", fun: "-" },
+        { name: "Fred MEERPOËL", col: "orientation", role: "Responsable", skills: "Management, Stratégie" },
+        { name: "Joëlle GOUDINEAU", col: "orientation", role: "Conseillère Orientation Psychologue", skills: "Psychologie, Écoute" },
+        { name: "Delphine ISCAYE", col: "orientation", role: "Conseillère ARE", skills: "Orientation, Accompagnement" },
+        { name: "Corinne MARGUTTI", col: "orientation", role: "Conseillère ARE", skills: "Conseil, Insertion" },
+        { name: "Nicolas MUSCAT", col: "orientation", role: "Conseiller ARE", skills: "Relation Entreprises" },
+        { name: "Elodie RODRIGUEZ", col: "orientation", role: "Conseillère ARE", skills: "Pédagogie, Réussite" },
+        { name: "Virginie BADAMO", col: "orientation", role: "Conseillère ARE", skills: "Accompagnement, Insertion" },
 
         // SERVICE RELATIONS
-        { name: "Jade JANNINELLE", col: "relations", role: "Chargée de relations - Secondaire", skills: "Liaison Lycée-Univ", perimetre: "Lycées", projects: "JPO", interactions: "Proviseurs", collab: "Dynamisme", comm: "Mail", rush: "Janvier", fun: "-" },
-        { name: "Nina GAULUPEAU", col: "relations", role: "Animateur Communauté Étudiants", skills: "Communication, Événementiel", perimetre: "Réseaux sociaux", projects: "Campagne comm", interactions: "Ambassadeurs", collab: "Créativité", comm: "Slack", rush: "Rentrée", fun: "-" },
+        { name: "Jade JANNINELLE", col: "relations", role: "Chargée de relations - Secondaire", skills: "Liaison Lycée-Univ" },
+        { name: "Nina GAULUPEAU", col: "relations", role: "Animateur Communauté Étudiants", skills: "Communication, Événementiel" },
 
         // SERVICE 3DR
-        { name: "Céline CHAUVE", col: "3dr", role: "Responsable de Service", skills: "Pilotage, Dispositifs", perimetre: "Coordination 3DR", projects: "Réforme dispositifs", interactions: "Composantes", collab: "Efficacité", comm: "Présentiel", rush: "Septembre", fun: "-" },
-        { name: "Igor CARRÉ", col: "3dr", role: "Chargé de développement", skills: "Ingénierie de formation", perimetre: "Outils pédagogiques", projects: "Dispositifs réussite", interactions: "Enseignants", collab: "Précision", comm: "Mail", rush: "-", fun: "-" },
-        { name: "Létitia COQUET", col: "3dr", role: "Chargée de développement", skills: "Gestion de projet", perimetre: "Nouveaux outils", projects: "Déploiement", interactions: "DSI", collab: "-", comm: "Teams", rush: "-", fun: "-" },
-        { name: "Stéphanie LITTERST", col: "3dr", role: "Responsable Cellule PPO", skills: "Formation, PPO", perimetre: "Pédagogie PPO", projects: "Ingénierie", interactions: "Formateurs", collab: "Pédagogie", comm: "Mail", rush: "-", fun: "-" },
-        { name: "Béatrice RENARD", col: "3dr", role: "Coordonnatrice Formation", skills: "Administration, Planning", perimetre: "Gestion vacataires", projects: "Planning", interactions: "Vacataires", collab: "Rigueur", comm: "Mail", rush: "Rentrée", fun: "-" },
-        { name: "Samantha PONTVIANNE", col: "3dr", role: "Ens. Contractuelle UE pro", skills: "Enseignement, Insertion", perimetre: "Modules pro", projects: "Nouveaux modules", interactions: "Étudiants", collab: "-", comm: "Teams", rush: "-", fun: "-" },
+        { name: "Céline CHAUVE", col: "3dr", role: "Responsable de Service", skills: "Pilotage, Dispositifs" },
+        { name: "Igor CARRÉ", col: "3dr", role: "Chargé de développement", skills: "Ingénierie de formation" },
+        { name: "Létitia COQUET", col: "3dr", role: "Chargée de développement", skills: "Gestion de projet" },
+        { name: "Stéphanie LITTERST", col: "3dr", role: "Responsable Cellule PPO", skills: "Formation, PPO" },
+        { name: "Béatrice RENARD", col: "3dr", role: "Coordonnatrice Formation", skills: "Administration, Planning" },
+        { name: "Samantha PONTVIANNE", col: "3dr", role: "Ens. Contractuelle UE pro", skills: "Enseignement, Insertion" },
 
         // LABORATOIRE
-        { name: "Sarah SAIOUD", col: "labo", role: "Responsable de Service", skills: "Innovation, Recherche", perimetre: "Recherche ARE", projects: "Expérimentations", interactions: "Labos de recherche", collab: "Curiosité", comm: "Email", rush: "-", fun: "-" },
-        { name: "Christophe GARELLI", col: "labo", role: "Chargé outils innovants", skills: "Numérique, EdTech", perimetre: "Plateformes", projects: "Appli réussite", interactions: "Prestataires", collab: "Agilité", comm: "Teams", rush: "-", fun: "-" }
+        { 
+            name: "Sarah SAIOUD", 
+            col: "labo", 
+            role: "Responsable de Service", 
+            perimetre: "Conception et expérimentation d’outils et d’actions innovantes pour améliorer l’expérience et la réussite des étudiants",
+            skills: "Outils maîtrisés : Canva, Genially, Moodle, H5P, Syllabus, Apose\nCompétences : UX Design, Ingénierie pédagogique, Design Thinking",
+            projects: "Passeport étudiant (maintenance), Refonte cours Promo (sept. 2026), Process ateliers de rentrée (sept. 2026), Participation au GT des CT à s’orienter (sept. 2026), Boite à outils de la réussite (sept. 2027)",
+            interactions: "Camille : validation et coordination générale\nMarie Cécile de Cian, Hugo Crovello et Igor Carré : analyses questionnaires du Passeport\n3DR : conseils et expertise Moodle\nSoiparé : remontées terrains et collaboration rentrée\nEtudiants : remontées terrains\nNina : mise à dispo des contrats étudiants pour rentrée et autres actions",
+            collab: "A besoin d’un recap par email (si info donnée à l’oral)",
+            comm: "Conversation Teams ou Email",
+            rush: "Rush pendant la rentrée (septembre et octobre non dispo)\nTélétravail le lundi et vendredi",
+            fun: "Fan de Harry Potter"
+        },
+        { name: "Christophe GARELLI", col: "labo", role: "Chargé outils innovants", skills: "Numérique, EdTech" }
     ];
 
     function renderTeam(filteredData) {
@@ -246,14 +259,14 @@
     function openModal(m) {
         document.getElementById('m-name').innerText = m.name;
         document.getElementById('m-role-top').innerText = m.role;
-        document.getElementById('m-perimetre').innerText = m.perimetre || "-";
-        document.getElementById('m-skills').innerText = m.skills || "-";
-        document.getElementById('m-projects').innerText = m.projects || "-";
-        document.getElementById('m-interactions').innerText = m.interactions || "-";
-        document.getElementById('m-collab').innerText = m.collab || "-";
-        document.getElementById('m-comm').innerText = m.comm || "-";
-        document.getElementById('m-rush').innerText = m.rush || "-";
-        document.getElementById('m-fun').innerText = m.fun || "-";
+        document.getElementById('m-perimetre').innerText = m.perimetre || "";
+        document.getElementById('m-skills').innerText = m.skills || "";
+        document.getElementById('m-projects').innerText = m.projects || "";
+        document.getElementById('m-interactions').innerText = m.interactions || "";
+        document.getElementById('m-collab').innerText = m.collab || "";
+        document.getElementById('m-comm').innerText = m.comm || "";
+        document.getElementById('m-rush').innerText = m.rush || "";
+        document.getElementById('m-fun').innerText = m.fun || "";
         document.getElementById('infoModal').style.display = 'block';
     }
 
@@ -263,7 +276,7 @@
         const val = document.getElementById('skillSearch').value.toLowerCase();
         const filtered = team.filter(m => 
             m.name.toLowerCase().includes(val) || 
-            m.skills.toLowerCase().includes(val) || 
+            (m.skills && m.skills.toLowerCase().includes(val)) || 
             m.role.toLowerCase().includes(val)
         );
         renderTeam(filtered);
