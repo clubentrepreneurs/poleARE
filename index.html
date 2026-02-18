@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pôle Accompagnement à la Réussite Étudiante - V2</title>
+    <title>Pôle Accompagnement à la Réussite Étudiante</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary-color: #00738c;
             --secondary-bg: #f4f7f8;
             --text-dark: #333;
-            --font-apex: 'Montserrat', sans-serif;
+            --font-apex: 'Apex', 'Montserrat', sans-serif;
         }
 
         body {
@@ -47,6 +47,11 @@
             transition: border-color 0.3s;
         }
 
+        #skillSearch:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+
         .grid-container {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -64,7 +69,7 @@
             font-size: 0.85rem;
             color: var(--primary-color);
             font-weight: 700;
-            min-height: 60px;
+            min-height: 50px;
             margin-bottom: 30px;
             text-transform: uppercase;
             display: flex;
@@ -81,15 +86,21 @@
             transition: transform 0.2s;
         }
 
-        .member-item:hover { transform: translateY(-5px); }
+        .member-item:hover {
+            transform: translateY(-5px);
+        }
 
         .avatar-circle {
-            width: 70px; height: 70px;
+            width: 70px;
+            height: 70px;
             border-radius: 50%;
             background: var(--primary-color);
             color: white;
-            display: flex; align-items: center; justify-content: center;
-            font-weight: bold; font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
             margin-bottom: 12px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
@@ -97,67 +108,34 @@
         .name { font-weight: 700; font-size: 0.9rem; margin-bottom: 4px; }
         .role { font-size: 0.75rem; color: #666; line-height: 1.2; }
 
+        /* Modal */
         .modal {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6);
-            backdrop-filter: blur(5px);
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
             z-index: 1000;
         }
 
         .modal-content {
             background: white;
             width: 90%;
-            max-width: 700px;
-            margin: 50px auto;
-            padding: 35px;
+            max-width: 500px;
+            margin: 100px auto;
+            padding: 40px;
             border-radius: 20px;
             position: relative;
-            max-height: 85vh;
-            overflow-y: auto;
         }
 
         .close-btn {
             position: absolute;
             top: 20px; right: 20px;
-            font-size: 28px; cursor: pointer; color: #999;
-        }
-
-        .info-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .info-item {
-            padding: 12px;
-            background: #fcfcfc;
-            border-left: 4px solid var(--primary-color);
-            border-radius: 4px;
-        }
-
-        .info-item label {
-            display: block;
-            font-size: 0.7rem;
-            font-weight: 700;
-            color: var(--primary-color);
-            text-transform: uppercase;
-            margin-bottom: 6px;
-        }
-
-        .info-item span {
-            font-size: 0.9rem;
-            color: #444;
-            white-space: pre-line;
+            font-size: 24px; cursor: pointer;
         }
 
         @media (max-width: 1100px) { .grid-container { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 650px) { 
-            .grid-container { grid-template-columns: 1fr; }
-            .info-grid { grid-template-columns: 1fr; }
-        }
+        @media (max-width: 600px) { .grid-container { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -168,32 +146,40 @@
 </header>
 
 <div class="search-wrapper">
-    <input type="text" id="skillSearch" placeholder="Filtrer par nom ou expertise..." onkeyup="filterData()">
+    <input type="text" id="skillSearch" placeholder="Filtrer par compétence ou nom..." onkeyup="filterData()">
 </div>
 
 <div class="grid-container">
-    <div class="service-column"><div class="service-title">Orientation, Insertion Pro et Accompagnement</div><div id="col-orientation"></div></div>
-    <div class="service-column"><div class="service-title">Relations partenaires</div><div id="col-relations"></div></div>
-    <div class="service-column"><div class="service-title">Développement Dispositifs (3DR)</div><div id="col-3dr"></div></div>
-    <div class="service-column"><div class="service-title">Laboratoire de la réussite</div><div id="col-labo"></div></div>
+    <div class="service-column">
+        <div class="service-title">Orientation, Insertion Pro et Accompagnement</div>
+        <div id="col-orientation"></div>
+    </div>
+
+    <div class="service-column">
+        <div class="service-title">Relations avec les partenaires d'aide à la réussite</div>
+        <div id="col-relations"></div>
+    </div>
+
+    <div class="service-column">
+        <div class="service-title">Développement et Déploiement des Dispositifs (3DR)</div>
+        <div id="col-3dr"></div>
+    </div>
+
+    <div class="service-column">
+        <div class="service-title">Laboratoire de la réussite</div>
+        <div id="col-labo"></div>
+    </div>
 </div>
 
 <div id="infoModal" class="modal">
     <div class="modal-content">
         <span class="close-btn" onclick="closeModal()">&times;</span>
-        <h2 id="m-name" style="color: var(--primary-color); margin: 0 0 5px 0;"></h2>
-        <p id="m-role-top" style="font-weight: bold; color: #666; margin-bottom: 20px;"></p>
-        <hr style="border: 0; border-top: 1px solid #eee;">
-        
-        <div class="info-grid">
-            <div class="info-item"><label>Périmètre d’action</label><span id="m-perimetre"></span></div>
-            <div class="info-item"><label>Expertise utile</label><span id="m-skills"></span></div>
-            <div class="info-item"><label>Projets en cours (deadline)</label><span id="m-projects"></span></div>
-            <div class="info-item"><label>Interactions clés</label><span id="m-interactions"></span></div>
-            <div class="info-item"><label>Collaboration idéale</label><span id="m-collab"></span></div>
-            <div class="info-item"><label>Préférence de communication</label><span id="m-comm"></span></div>
-            <div class="info-item"><label>Périodes de rush / contraintes</label><span id="m-rush"></span></div>
-            <div class="info-item"><label>Trait particulier / fun</label><span id="m-fun"></span></div>
+        <h2 id="m-name" style="color: var(--primary-color); margin-top: 0;"></h2>
+        <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+        <div id="m-details">
+            <p><strong>Rôle :</strong> <span id="m-role-detail"></span></p>
+            <p><strong>Compétences :</strong> <span id="m-skills"></span></p>
+            <p><strong>Projets en cours & futurs :</strong> <span id="m-projects"></span></p>
         </div>
     </div>
 </div>
@@ -201,41 +187,29 @@
 <script>
     const team = [
         // SERVICE ORIENTATION
-        { name: "Fred MEERPOËL", col: "orientation", role: "Responsable", skills: "" },
-        { name: "Joëlle GOUDINEAU", col: "orientation", role: "Conseillère Orientation Psychologue", skills: "" },
-        { name: "Delphine ISCAYE", col: "orientation", role: "Conseillère ARE", skills: "" },
-        { name: "Corinne MARGUTTI", col: "orientation", role: "Conseillère ARE", skills: "" },
-        { name: "Nicolas MUSCAT", col: "orientation", role: "Conseiller ARE", skills: "" },
-        { name: "Elodie RODRIGUEZ", col: "orientation", role: "Conseillère ARE", skills: "" },
-        { name: "Virginie BADAMO", col: "orientation", role: "Conseillère ARE", skills: "" },
+        { name: "Fred MEERPOËL", col: "orientation", role: "Responsable", skills: "Management, Stratégie", projects: "Plan réussite 2026" },
+        { name: "Joëlle GOUDINEAU", col: "orientation", role: "Conseillère Orientation Psychologue", skills: "Psychologie, Écoute", projects: "Permanences 50%" },
+        { name: "Delphine ISCAYE", col: "orientation", role: "Conseillère ARE", skills: "Orientation, Accompagnement", projects: "Ateliers CV" },
+        { name: "Corinne MARGUTTI", col: "orientation", role: "Conseillère ARE", skills: "Conseil, Insertion", projects: "Suivi étudiants" },
+        { name: "Nicolas MUSCAT", col: "orientation", role: "Conseiller ARE", skills: "Relation Entreprises", projects: "Forum Stages" },
+        { name: "Elodie RODRIGUEZ", col: "orientation", role: "Conseillère ARE", skills: "Pédagogie, Réussite", projects: "Tutorat" },
+        { name: "Virginie BADAMO", col: "orientation", role: "Conseillère ARE", skills: "Accompagnement, Insertion", projects: "Nouveau parcours" },
 
         // SERVICE RELATIONS
-        { name: "Jade JANNINELLE", col: "relations", role: "Chargée de relations - Secondaire", skills: "" },
-        { name: "Nina GAULUPEAU", col: "relations", role: "Animateur Communauté Étudiants", skills: "" },
+        { name: "Jade JANNINELLE", col: "relations", role: "Chargée de relations - Secondaire", skills: "Liaison Lycée-Univ", projects: "Journées Portes Ouvertes" },
+        { name: "Nina GAULUPEAU", col: "relations", role: "Animateur Communauté Étudiants", skills: "Communication, Événementiel", projects: "Réseaux sociaux" },
 
         // SERVICE 3DR
-        { name: "Céline CHAUVE", col: "3dr", role: "Responsable de Service", skills: "" },
-        { name: "Igor CARRÉ", col: "3dr", role: "Chargé de développement", skills: "" },
-        { name: "Létitia COQUET", col: "3dr", role: "Chargée de développement", skills: "" },
-        { name: "Stéphanie LITTERST", col: "3dr", role: "Responsable Cellule PPO", skills: "" },
-        { name: "Béatrice RENARD", col: "3dr", role: "Coordonnatrice Formation", skills: "" },
-        { name: "Samantha PONTVIANNE", col: "3dr", role: "Ens. Contractuelle UE pro", skills: "" },
+        { name: "Céline CHAUVE", col: "3dr", role: "Responsable de Service", skills: "Pilotage, Dispositifs", projects: "Coordination 3DR" },
+        { name: "Igor CARRÉ", col: "3dr", role: "Chargé de développement", skills: "Ingénierie de formation", projects: "Dispositifs réussite" },
+        { name: "Létitia COQUET", col: "3dr", role: "Chargée de développement", skills: "Gestion de projet", projects: "Nouveaux outils" },
+        { name: "Stéphanie LITTERST", col: "3dr", role: "Responsable Cellule PPO", skills: "Formation, PPO", projects: "Ingénierie pédagogique" },
+        { name: "Béatrice RENARD", col: "3dr", role: "Coordonnatrice Formation", skills: "Administration, Planning", projects: "Gestion des vacataires" },
+        { name: "Samantha PONTVIANNE", col: "3dr", role: "Ens. Contractuelle UE pro", skills: "Enseignement, Insertion", projects: "Modules professionnalisants" },
 
         // LABORATOIRE
-        { 
-            name: "Sarah SAIOUD", 
-            col: "labo", 
-            role: "Responsable de Service", 
-            perimetre: "Conception et expérimentation d’outils et d’actions innovantes pour améliorer l’expérience et la réussite des étudiants",
-            skills: "Outils maîtrisés : Canva, Genially, Moodle, H5P, Syllabus, Apose\nCompétences : UX Design, Ingénierie pédagogique, Design Thinking",
-            projects: "Passeport étudiant (maintenance), Refonte cours Promo (sept. 2026), Process ateliers de rentrée (sept. 2026), Participation au GT des CT à s’orienter (sept. 2026), Boite à outils de la réussite (sept. 2027)",
-            interactions: "Camille : validation et coordination générale\nMarie Cécile de Cian, Hugo Crovello et Igor Carré : analyses questionnaires du Passeport\n3DR : conseils et expertise Moodle\nSoiparé : remontées terrains et collaboration rentrée\nEtudiants : remontées terrains\nNina : mise à dispo des contrats étudiants pour rentrée et autres actions",
-            collab: "A besoin d’un recap par email (si info donnée à l’oral)",
-            comm: "Conversation Teams ou Email",
-            rush: "Rush pendant la rentrée (septembre et octobre non dispo)\nTélétravail le lundi et vendredi",
-            fun: "Fan de Harry Potter"
-        },
-        { name: "Christophe GARELLI", col: "labo", role: "Chargé outils innovants", skills: "" }
+        { name: "Sarah SAIOUD", col: "labo", role: "Responsable de Service", skills: "Innovation, Recherche", projects: "Expérimentations" },
+        { name: "Christophe GARELLI", col: "labo", role: "Chargé outils innovants", skills: "Numérique, EdTech", projects: "Plateforme réussite" }
     ];
 
     function renderTeam(filteredData) {
@@ -243,7 +217,7 @@
         columns.forEach(c => document.getElementById(`col-${c}`).innerHTML = '');
 
         filteredData.forEach(member => {
-            const initials = member.name.split(' ').map(n => n[0]).join('');
+            const initials = member.name === "À Recruter" ? "?" : member.name.split(' ').map(n => n[0]).join('');
             const card = document.createElement('div');
             card.className = 'member-item';
             card.onclick = () => openModal(member);
@@ -258,31 +232,29 @@
 
     function openModal(m) {
         document.getElementById('m-name').innerText = m.name;
-        document.getElementById('m-role-top').innerText = m.role;
-        document.getElementById('m-perimetre').innerText = m.perimetre || "";
-        document.getElementById('m-skills').innerText = m.skills || "";
-        document.getElementById('m-projects').innerText = m.projects || "";
-        document.getElementById('m-interactions').innerText = m.interactions || "";
-        document.getElementById('m-collab').innerText = m.collab || "";
-        document.getElementById('m-comm').innerText = m.comm || "";
-        document.getElementById('m-rush').innerText = m.rush || "";
-        document.getElementById('m-fun').innerText = m.fun || "";
+        // On remplit la nouvelle ligne "Rôle" ici
+        document.getElementById('m-role-detail').innerText = m.role;
+        document.getElementById('m-skills').innerText = m.skills;
+        document.getElementById('m-projects').innerText = m.projects;
         document.getElementById('infoModal').style.display = 'block';
     }
 
-    function closeModal() { document.getElementById('infoModal').style.display = 'none'; }
+    function closeModal() {
+        document.getElementById('infoModal').style.display = 'none';
+    }
 
     function filterData() {
         const val = document.getElementById('skillSearch').value.toLowerCase();
         const filtered = team.filter(m => 
             m.name.toLowerCase().includes(val) || 
-            (m.skills && m.skills.toLowerCase().includes(val)) || 
+            m.skills.toLowerCase().includes(val) || 
             m.role.toLowerCase().includes(val)
         );
         renderTeam(filtered);
     }
 
     window.onclick = (e) => { if(e.target.className === 'modal') closeModal(); }
+
     renderTeam(team);
 </script>
 
